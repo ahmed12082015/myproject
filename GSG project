@@ -1,0 +1,62 @@
+class Book:
+    def __init__(self, book_id, title, author, level):
+        self.book_id = book_id
+        self.title = title
+        self.author = author
+        self.level = level
+        self.availability = True
+    
+    def __str__(self):
+        return f"Book ID: {self.book_id}, Title: {self.title}, Author: {self.author}, Level: {self.level}, Availability: {'Available' if self.availability else 'Not Available'}"
+
+
+class Member:
+    def __init__(self, member_id, name, email, level):
+        self.member_id = member_id
+        self.name = name
+        self.email = email
+        self.level = level
+        self.borrowed_books = []
+    
+    def borrow_book(self, book):
+        if book.availability and book.level == self.level:
+            book.availability = False
+            self.borrowed_books.append(book)
+            print(f"{self.name} borrowed '{book.title}'")
+        else:
+            print("Book is not available or it doesn't suit you.")
+    
+    def return_book(self, book):
+        if book in self.borrowed_books:
+            book.availability = True
+            self.borrowed_books.remove(book)
+            print(f"{self.name} returned '{book.title}'")
+        else:
+            print("You didn't borrow this book.")
+    
+    def __str__(self):
+        return f"Member ID: {self.member_id}, Name: {self.name}, Email: {self.email}, Level: {self.level}"
+
+
+class Library:
+    def __init__(self):
+        self.books = []
+        self.members = []
+    
+    def add_book(self, book):
+        self.books.append(book)
+    
+    def add_member(self, member):
+        self.members.append(member)
+    
+    def get_book_by_id(self, book_id):
+        for book in self.books:
+            if book.book_id == book_id:
+                return book
+        return None
+    
+    def get_member_by_id(self, member_id):
+        for member in self.members:
+            if member.member_id == member_id:
+                return member
+        return None
